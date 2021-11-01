@@ -1,6 +1,7 @@
 package de.tekup.rst.entities;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -22,4 +23,12 @@ public class TicketEntity {
 	@ManyToOne
 	private ClientEntity client;
 	
+	@ManyToOne
+	private TableEntity table;
+	
+	@ManyToMany
+	@JoinTable(name = "compose",
+	joinColumns = @JoinColumn(name="ticket_number"),
+	inverseJoinColumns = @JoinColumn(name="met_id"))
+	private List<MetEntity> mets;
 }
