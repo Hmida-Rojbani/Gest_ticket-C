@@ -1,5 +1,7 @@
 package de.tekup.rst.rest.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +20,7 @@ public class TableCtrl {
 	private TableService tableService;
 
 	@PostMapping()
-	public TableRes addTable(@RequestBody TableReq tableReq) {
+	public TableRes addTable(@Valid @RequestBody TableReq tableReq) {
 		return tableService.saveTableToDB(tableReq);
 	}
 }
