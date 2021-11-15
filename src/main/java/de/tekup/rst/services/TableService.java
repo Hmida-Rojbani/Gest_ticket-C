@@ -15,10 +15,10 @@ import lombok.AllArgsConstructor;
 public class TableService {
 	
 	private TableRepository tableRepository;
+	private ModelMapper mapper;
 
 	public TableRes saveTableToDB(TableReq tableReq) {
-		ModelMapper mapper = new ModelMapper();
-		
+				
 //		TableEntity tableEntity = new TableEntity();
 //		tableEntity.setNbCouverts(tableReq.getNbCouverts());
 //		tableEntity.setType(tableReq.getType());
