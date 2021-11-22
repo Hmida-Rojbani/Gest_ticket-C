@@ -7,13 +7,17 @@ import de.tekup.rst.entities.ClientEntity;
 import de.tekup.rst.entities.MetEntity;
 import de.tekup.rst.entities.Plat;
 import de.tekup.rst.entities.TableEntity;
+import de.tekup.rst.entities.TicketEntity;
 import de.tekup.rst.repositories.ClientRepository;
 import de.tekup.rst.repositories.MetRepository;
 import de.tekup.rst.repositories.TableRepository;
 import lombok.AllArgsConstructor;
 
 import java.time.*;
+import java.time.format.TextStyle;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -71,6 +75,26 @@ public class StatService {
 								.max(Comparator.comparing(tab->tab.getTickets().size()))
 								.orElse(null);
 		return mapper.map(tableEntity, TableRes.class);
+	}
+	
+	public String jourPlusReserveeParClient(long id) {
+		ClientEntity clientEntity = clientRepository.findById(id).get();
+	
+		List<TicketEntity> ticketEntities = clientEntity.getTickets();
+		List<DayOfWeek> days = ticketEntities.stream()
+										.map(t -> t.getDate().getDayOfWeek())
+										.collect(Collectors.toList());
+		
+		System.out.println(days);
+		Map<DayOfWeek,Long> map =  days.stream()
+		.collect(Collectors.groupingBy(Function.identity(),Collectors.counting()));
+		System.out.println(map);
+		DayOfWeek day = map.entrySet().stream()
+									.max(Map.Entry.comparingByValue())
+									.get().getKey();
+		System.out.println(day);
+		
+		return day.getDisplayName(TextStyle.FULL, new Locale("fr"));
 	}
 
 }
