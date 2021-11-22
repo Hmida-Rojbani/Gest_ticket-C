@@ -11,10 +11,13 @@ import de.tekup.rst.entities.TicketEntity;
 import de.tekup.rst.repositories.ClientRepository;
 import de.tekup.rst.repositories.MetRepository;
 import de.tekup.rst.repositories.TableRepository;
+import de.tekup.rst.repositories.TicketRepository;
 import lombok.AllArgsConstructor;
 
 import java.time.*;
 import java.time.format.TextStyle;
+import java.time.temporal.TemporalField;
+import java.time.temporal.WeekFields;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -26,6 +29,7 @@ public class StatService {
 	private MetRepository metRepository;
 	private ClientRepository clientRepository;
 	private TableRepository tableRepository;
+	private TicketRepository ticketRepository;
 	private ModelMapper mapper;
 	
 	public MetDTO platPlusAchete(LocalDate debut, LocalDate fin) {
@@ -95,6 +99,40 @@ public class StatService {
 		System.out.println(day);
 		
 		return day.getDisplayName(TextStyle.FULL, new Locale("fr"));
+	}
+	
+	public HashMap<String, Double> revenueStat() {
+		List<TicketEntity> tickets = ticketRepository.findAll();
+		LocalDate today = LocalDate.now();
+		List<TicketEntity> ticketsToday=tickets.stream()
+								.filter(t-> t.getDate().toLocalDate().isEqual(today))
+								.collect(Collectors.toList());
+		double additionToday = ticketsToday.stream()
+									.mapToDouble(t-> t.getAddition())
+									.sum();
+		System.out.println(additionToday);
+		
+		double additionMonth = tickets.stream()
+							.filter(t-> t.getDate().getMonth().equals(today.getMonth())
+									&& t.getDate().getYear()==today.getYear()) 
+							.mapToDouble(t-> t.getAddition())
+							.sum();
+		System.out.println(additionMonth);
+		
+		TemporalField weekOfYear = WeekFields.ISO.weekOfWeekBasedYear();
+		double additionWeek = tickets.stream()
+				.filter(t-> t.getDate().get(weekOfYear) ==  today.get(weekOfYear)
+						&& t.getDate().getYear()==today.getYear()) 
+				.mapToDouble(t-> t.getAddition())
+				.sum();
+		System.out.println(additionWeek);
+		
+		HashMap<String, Double> map = new HashMap<>();
+		map.put("Par mois", additionMonth);
+		map.put("Par semaine", additionWeek);
+		map.put("Par jour", additionToday);
+		
+		return map;
 	}
 
 }
