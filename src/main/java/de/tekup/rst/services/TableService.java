@@ -18,7 +18,7 @@ public class TableService {
 	private ModelMapper mapper;
 
 	public TableRes saveTableToDB(TableReq tableReq) {
-				
+		 	
 //		TableEntity tableEntity = new TableEntity();
 //		tableEntity.setNbCouverts(tableReq.getNbCouverts());
 //		tableEntity.setType(tableReq.getType());
