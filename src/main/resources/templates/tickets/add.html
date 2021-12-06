@@ -7,9 +7,26 @@
 <div class="container">
 <div class="row">
 <div class="offset-md-2 col-md-8">
-<h2 class="text-center">Create Ticket</h2>
-
-
+<h2 class="text-center">Create Tickets</h2>
+<div class="container px-5 my-5">
+    <form id="contactForm" th:object="${ticket}" th:action="@{/tickets/add}" method="post">
+        <div class="form-floating mb-3">
+            <select th:field="*{clientId}" class="form-select" id="type" aria-label="Type">
+                <option th:each="client : ${clients}" th:value="${client.id}" th:text="${client.getNomComplet()}">1</option>
+            </select>
+            <label for="type">Client</label>
+        </div>
+       <div class="form-floating mb-3">
+            <select th:field="*{tableId}" class="form-select" id="type" aria-label="Type">
+                <option th:each="table : ${tables}" th:value="${table.numero}" th:text="${table.numero}">1</option>
+            </select>
+            <label for="type">Table</label>
+        </div>
+        <div class="d-grid">
+            <button class="btn btn-primary btn-lg" id="submitButton" type="submit">Submit</button>
+        </div>
+    </form>
+</div>
 </div>
 </div>
 </div>

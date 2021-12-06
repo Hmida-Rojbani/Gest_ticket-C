@@ -17,5 +17,9 @@ public class ClientDTO {
 	private String courrier;
 	
 	private String telephone;
+	
+	public String getNomComplet() {
+		return prenom + " " + nom;
+	}
 
 }
