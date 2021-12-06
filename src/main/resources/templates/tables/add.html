@@ -9,25 +9,25 @@
 <div class="offset-md-2 col-md-8">
 <h2 class="text-center">Add Table</h2>
 <div class="container px-5 my-5">
-    <form id="contactForm">
+    <form id="contactForm" th:object="${table}" th:action="@{/tables/add}" method="post">
         <div class="form-floating mb-3">
-            <input class="form-control" id="nbCouerts" type="text" placeholder="NbCouerts" data-sb-validations="required" />
+            <input th:field="*{nbCouverts}" class="form-control" id="nbCouerts" type="number" min="2" placeholder="NbCouerts" data-sb-validations="required" />
             <label for="nbCouerts">NbCouerts</label>
             <div class="invalid-feedback" data-sb-feedback="nbCouerts:required">NbCouerts is required.</div>
         </div>
         <div class="form-floating mb-3">
-            <select class="form-select" id="type" aria-label="Type">
-                <option th:each="typeOpt : ${T(de.tekup.rst.entities.TableType).values()}" th:value="${typeOpt}" th:text="${typeOpt}">1</option>
+            <select th:field="*{type}" class="form-select" id="type" aria-label="Type">
+                <option th:each="typeOpt : ${T(de.tekup.rst.entities.TableType).values()}" th:value="${typeOpt}" th:text="${typeOpt.displayName}">1</option>
             </select>
             <label for="type">Type</label>
         </div>
         <div class="form-floating mb-3">
-            <input class="form-control" id="supplement" type="text" placeholder="Supplement" data-sb-validations="required" />
+            <input th:field="*{supplement}" class="form-control" id="supplement" type="number" min="0" placeholder="Supplement" data-sb-validations="required" />
             <label for="supplement">Supplement</label>
             <div class="invalid-feedback" data-sb-feedback="supplement:required">Supplement is required.</div>
         </div>
         <div class="d-grid">
-            <button class="btn btn-primary btn-lg disabled" id="submitButton" type="submit">Submit</button>
+            <button class="btn btn-primary btn-lg" id="submitButton" type="submit">Submit</button>
         </div>
     </form>
 </div>

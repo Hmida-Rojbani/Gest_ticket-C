@@ -12,7 +12,7 @@ public class TableReq {
 	
 	@Min(2)
 	@Max(value = 10,message = "Nombre de couvert est au max 10.")
-	private int nbCouverts;
+	private int nbCouverts = 2;
 	private TableType type;
 	@PositiveOrZero
 	private double supplement;

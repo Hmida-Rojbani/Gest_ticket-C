@@ -1,5 +1,8 @@
 package de.tekup.rst.services;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -33,4 +36,9 @@ public class TableService {
 		return mapper.map(tableEntity, TableRes.class);
 	}
 
+	public List<TableRes> getAllTables(){
+		return tableRepository.findAll().stream()
+							.map(ent->mapper.map(ent, TableRes.class))
+							.collect(Collectors.toList());
+	}
 }
